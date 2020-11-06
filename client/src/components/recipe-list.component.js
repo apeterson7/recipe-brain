@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+require('dotenv').config()
 
 const port = process.env.PORT || 3000;
 
@@ -25,6 +26,7 @@ export default class RecipeeList extends Component {
   }
 
   componentDidMount() {
+    console.log(`calling: http://localhost:${port}/api/recipe`);
     axios.get(`http://localhost:${port}/api/recipe`)
       .then(response => {
         this.setState({ recipes: response.data })
