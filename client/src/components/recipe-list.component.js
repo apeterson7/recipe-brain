@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+const port = process.env.PORT || 3000;
+
 const Recipe = props => (
   <tr>
     <td>{props.recipe.name}</td>
@@ -23,7 +25,7 @@ export default class RecipeeList extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3000/api/recipe')
+    axios.get(`http://localhost:${port}/api/recipe`)
       .then(response => {
         this.setState({ recipes: response.data })
       })
