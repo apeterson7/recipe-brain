@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-require('dotenv').config()
 
 const Recipe = props => (
   <tr>
     <td>{props.recipe.name}</td>
     <td>{props.recipe.link}</td>
     <td>{props.recipe.ingredients.length}</td>
-    {/* <td>
-      <Link to={"/edit/"+props.exercise._id}>edit</Link> | <a href="#" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a>
-    </td> */}
+    <td>
+      <Link to={"/recipes/"+props.recipe._id}>View</Link>
+    </td>
   </tr>
 )
 
-export default class RecipeeList extends Component {
+export default class RecipeList extends Component {
   constructor(props) {
     super(props);
 
@@ -24,7 +23,7 @@ export default class RecipeeList extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/api/recipe`)
+    axios.get(`/api/recipes`)
       .then(response => {
         this.setState({ recipes: response.data })
       })
@@ -52,14 +51,14 @@ export default class RecipeeList extends Component {
     return (
       <div>
         <h3>Recipes</h3>
+        <Link to={"/add"}>Add</Link>
         <table className="table">
           <thead className="thead-light">
             <tr>
-              <th>Username</th>
-              <th>Description</th>
-              <th>Duration</th>
-              <th>Date</th>
-              <th>Actions</th>
+              <th>Recipe</th>
+              <th>Link</th>
+              <th>Ingredients</th>
+              <th>View</th>
             </tr>
           </thead>
           <tbody>

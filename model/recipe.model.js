@@ -11,8 +11,6 @@ const Ingredient = new Schema({
     },
     quantity: Number,
     unit: String 
-},{
-    timestamps: true
 });
 
 const recipeSchema = new Schema({
@@ -24,7 +22,16 @@ const recipeSchema = new Schema({
         minlength: 3
     },
     link: String,
-    ingredients: [Ingredient]
+    ingredients: [Ingredient],
+    instructions: [String],
+    time:{
+        active: String,
+        cook: String,
+        inactive: String,
+        prep: String,
+        ready: String,
+        total: String,
+    }
 },{
     timestamps: true
 });
