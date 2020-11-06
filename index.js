@@ -11,7 +11,7 @@ const uri = process.env.ATLAS_URI
 mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true});
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Test DB')
 })
 
 app.use('/birds', birds)
