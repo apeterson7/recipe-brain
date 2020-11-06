@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 require('dotenv').config()
 
-const port = process.env.PORT || 3000;
-
 const Recipe = props => (
   <tr>
     <td>{props.recipe.name}</td>
@@ -26,8 +24,7 @@ export default class RecipeeList extends Component {
   }
 
   componentDidMount() {
-    console.log(`calling: http://localhost:${port}/api/recipe`);
-    axios.get(`http://localhost:${port}/api/recipe`)
+    axios.get(`/api/recipe`)
       .then(response => {
         this.setState({ recipes: response.data })
       })
