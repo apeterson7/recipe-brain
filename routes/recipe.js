@@ -32,7 +32,6 @@ router.route('/').post((req, res) => {
     .then(() => res.json('Recipe added!'))
     .catch(err => res.status(400).json('Error: ' + err));
 
-  res.send("cool");
 });
 
 router.route('/scrape').post((req, res) => {

@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.10.12",
     "nodemon": "^2.0.6",
+    "numeric-quantity": "^0.5.1",
     "recipe-scraper": "^1.23.4"
   }
 }

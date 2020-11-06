@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+var numQty = require("numeric-quantity");
 
 const Recipe = props => (
   <tr>
@@ -66,11 +67,17 @@ export default class RecipeAdd extends Component {
     let tokens = ingredientStr.split(' ');
     let quantity = (tokens.shift());
     try{
-        quantity = eval(quantity)
-        let unit = tokens.shift();
-        let name = tokens.join(' ');
-        return {name: name, quantity: quantity, unit:unit}
+        quantity = numQty(quantity)
+        if(tokens.length < 2){
+            let name = tokens.shift();
+            return {name: name, quantity: quantity, unit:null}
+        }else{
+            let unit = tokens.shift();
+            let name = tokens.join(' ');
+            return {name: name, quantity: quantity, unit:unit}
+        }
     }catch{
+        //If error, save all text as name
         tokens.unshift(quantity);
         return {name: tokens.join(' '), quantity: null, unit: null}
     }
