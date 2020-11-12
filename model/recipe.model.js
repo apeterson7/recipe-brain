@@ -5,9 +5,7 @@ const Ingredient = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
-        minlength: 3
     },
     quantity: Number,
     unit: String 
@@ -21,7 +19,6 @@ const recipeSchema = new Schema({
         trim: true,
         minlength: 3
     },
-    link: String,
     ingredients: [Ingredient],
     instructions: [String],
     time:{
@@ -31,7 +28,11 @@ const recipeSchema = new Schema({
         prep: String,
         ready: String,
         total: String,
-    }
+    },
+    link: String,
+    rating: Number,
+    notes: String,
+    image: String
 },{
     timestamps: true
 });

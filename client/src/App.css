@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 10% auto 10%;
+  grid-template-rows: auto auto;
+}
+
+#left-sidebar{
+  grid-column: 1;
+}
+
+#main{
+  margin-top:30px;
+  grid-column: 2;
+}
+
+#right-sidebar{
+  grid-column: 3;
+}
+
+.card{
+  margin-bottom: 10px
+}
+
+.trash-btn{
+  display: float-right;
+}

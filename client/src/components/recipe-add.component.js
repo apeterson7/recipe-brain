@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
+
 var numQty = require("numeric-quantity");
 
 const Recipe = props => (
@@ -14,8 +16,10 @@ const Recipe = props => (
   </tr>
 )
 
+
 export default class RecipeAdd extends Component {
-  constructor(props) {
+
+    constructor(props) {
     super(props);
 
     this.onChangeName = this.onChangeName.bind(this);
@@ -29,15 +33,10 @@ export default class RecipeAdd extends Component {
         link: '',
         ingredients: [],
         instructions: [],
-        timeActive: '',
-        timeCook: '',
-        timeInactive: '',
-        timePrep: '',
-        timeReady: '',
-        timeTotal: '',
+        time: {},
 
         scrapedRecipe: {},
-        scrapedImgLink: ''
+        image: ''
     };
   }
 
@@ -56,10 +55,6 @@ export default class RecipeAdd extends Component {
   }
 
   setIngredient() {
-
-  }
-
-  checkAmount(amt){
 
   }
 
@@ -95,33 +90,37 @@ export default class RecipeAdd extends Component {
 
         this.setState({
             name: res.data.name,
-            imageSrcLink: res.data.image,
+            image: res.data.image,
             ingredients: parsedIngredients,
-            instructions: res.data.instructions
+            instructions: res.data.instructions,
+            time: res.data.time
         })
     });
-
   }
 
   onSubmit(e) {
+
     e.preventDefault();
 
     const recipe = {
       name: this.state.name,
       link: this.state.link,
       ingredients: this.state.ingredients,
-      instructions: this.state.instructions
+      instructions: this.state.instructions,
+      time: this.state.time,
+      rating: 0,
+      notes: this.state.notes,
+      image: this.state.image
     }
 
     console.log(recipe);
 
     axios.post('/api/recipes', recipe)
-      .then(res => console.log(res.data));
-
-    this.setState({
-      name: ''
-    })
-
+      .then(res => {
+          console.log(res.data)
+          window.location = '/';
+        })
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -139,7 +138,7 @@ export default class RecipeAdd extends Component {
               onChange={this.onChangeLink}
               />
         </div>
-        {this.state.imageSrcLink ? <img height="300px" width="300px" src={this.state.imageSrcLink}></img> : null }
+        {this.state.image ? <img  width="100%" src={this.state.image}></img> : null }
         <div className="form-group"> 
           <label>Recipe </label>
           <input ref="nameInput"
