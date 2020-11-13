@@ -5,12 +5,7 @@ var User = require('../model/user.model');
 
 var router = express.Router();
 
-// GET: /users/new
-router.get('/new', function(req, res) {
-  res.render('users/new', { message: req.flash('error') });
-});
-
-// POST: /users
+// POST: /api/users
 router.post('/', function(req, res) {
 
   User.register(new User({
@@ -29,5 +24,15 @@ router.post('/', function(req, res) {
     });
   });
 });
+
+router.get('/', (req, res, next) => {
+  console.log('===== user!!======')
+  console.log(req.user)
+  if (req.user) {
+      res.json({ user: req.user })
+  } else {
+      res.json({ user: null })
+  }
+})
 
 module.exports = router;

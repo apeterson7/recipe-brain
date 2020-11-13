@@ -32,13 +32,14 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 
-
-app.use('/', express.static('client/build'));
+app.use(express.static('client/build'));
 app.use('/api/sessions', sessionRouter)
 app.use('/api/users', userRouter)
-app.use('/api/recipes',recipeRouter);
+app.use('/api/recipes', recipeRouter);
+app.get('*', (req,res) =>{
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 var User = require('./model/user.model');
 passport.use(new LocalStrategy(User.authenticate()));
@@ -53,10 +54,7 @@ app.listen(port, () => {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  console.log(err);
 });
 
 

@@ -11,7 +11,7 @@ const Recipe = props => (
         <p>{props.recipe.link}</p>
         {_.times((props.recipe.rating), () => { return (<span class="fa fa-star"></span>)})} Rated {props.recipe.rating} Stars
         <br></br>
-
+        <button class="btn btn-primary" onClick={props.notify}>Text Me Ingredients!</button>
         <img src={props.recipe.image} width="100%"></img>
 
         <Accordion defaultActiveKey="0">
@@ -23,7 +23,6 @@ const Recipe = props => (
             </Card.Header>
             <Accordion.Collapse eventKey="0">
               <Card.Body>
-
               <table class="table">
                 <tbody>
                   {props.recipe.ingredients ? props.recipe.ingredients.map(ingredient => {
@@ -71,6 +70,7 @@ export default class RecipeDetail extends Component {
     super(props);
 
     this.state = { recipe: {} };
+    this.notify = this.notify.bind(this);
   }
 
   componentDidMount() {
@@ -83,11 +83,21 @@ export default class RecipeDetail extends Component {
       })
   }
 
+  notify() {
+    axios.post('/api/recipes/text', {recipe: this.state.recipe})
+    .then(response => {
+      console.log(response.body)
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
   render() {
     return (
       <div>
         <h3>Recipe</h3>
-        <Recipe recipe={this.state.recipe} key={this.state.recipe._id}/>
+        <Recipe recipe={this.state.recipe} key={this.state.recipe._id} notify={this.notify}/>
       </div>
     )
   }

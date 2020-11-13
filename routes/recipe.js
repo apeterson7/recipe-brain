@@ -2,6 +2,7 @@ const router = require('express').Router();
 let Recipe = require('../model/recipe.model');
 const recipeScraper = require("recipe-scraper");
 var middleware = require('../lib/middleware');
+var notifier = require('../lib/notifier');
 
 router.use(function (req, res, next) {
   res.locals.user = req.user;
@@ -14,13 +15,13 @@ async function getRecipe(link) {
   return recipe;
 }
 
-router.route('/').get((req, res) => {
+router.get('/',(req, res) => {
   Recipe.find()
     .then(recipes => res.json(recipes))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.get('/:id', middleware.isAuthenticated, (req, res) => {
+router.get('/:id',(req, res) => {
   let id = req.params.id;
   Recipe.findById(id)
     .then(recipe => res.json(recipe))
@@ -35,16 +36,12 @@ router.delete('/:id', middleware.isAuthenticated, (req, res) => {
 });
 
 router.post('/', middleware.isAuthenticated, (req, res) => {
-  
-  console.log(req.body);
-
   let recipe = new Recipe(req.body);
   console.log(recipe);
 
   recipe.save()
     .then(() => res.json('Recipe added!'))
     .catch(err => res.status(400).json('Error: ' + err));
-
 });
 
 router.put('/', middleware.isAuthenticated, (req, res) => {
@@ -75,6 +72,20 @@ router.post('/scrape', middleware.isAuthenticated, (req, res) => {
     err => res.status(400).json('Error: '+ err)
   );
 
+});
+
+router.post('/text', middleware.isAuthenticated, (req, res) => {
+  
+  console.log(req.user);
+
+  if(!req.body.recipe){
+    res.status(400).json('no link included in request')
+  };
+
+  console.log('in notification')
+
+  notifier.sendNotification(req.body.recipe, req.user);
+  res.json('Cool');
 });
 
 module.exports = router;
