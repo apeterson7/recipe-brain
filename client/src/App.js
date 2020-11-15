@@ -13,8 +13,10 @@ import Login from "./components/user/login.component.js";
 import SignUp from "./components/user/sign-up.component.js";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import PrivateRoute from "./route-component/private-route";
+import Welcome from "./components/static/welcome";
+import history from './common/history';
 
 class App extends Component {
   constructor() {
@@ -43,7 +45,6 @@ class App extends Component {
       console.log(response.data)
       if (response.data.user) {
         console.log('Get User: There is a user saved in the server session: ')
-
         this.setState({
           loggedIn: true,
           username: response.data.user.username
@@ -66,17 +67,22 @@ class App extends Component {
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
           <div id="left-sidebar"></div>
           <div id="main">
-            <Router id="router">
+            <Router id="router" history={history}>
               <div className="Container">
                 <br/>
-                <Route path="/" exact component={RecipeList} />
-                <Route path="/recipes/:id" exact component={RecipeDetail} />
-                <Route path="/edit/:id" exact component={RecipeEdit} />
-                <Route path="/add" exact component={RecipeAdd} />
-
-                <Route path="/login" exact component={Login} />
-                <Route path="/signup" exact component={SignUp} />
-
+                <Switch>
+                  <Route path="/" exact component={RecipeList}>
+                  {this.state.loggedIn ? 
+                    <RecipeList></RecipeList>
+                    : <Welcome></Welcome>
+                  }
+                  </Route>
+                  <Route path="/recipes/:id" exact component={RecipeDetail} />
+                  <Route path="/edit/:id" exact component={RecipeEdit} />
+                  <Route path="/add" exact component={RecipeAdd} />
+                  <Route path="/login" exact component={Login} />
+                  <Route path="/signup" exact component={SignUp} />
+                </Switch>
               </div>
             </Router>
           </div>

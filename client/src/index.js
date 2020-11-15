@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+    <link rel="stylesheet" href="/bower/fontawesome/css/font-awesome.min.css"></link>
     <App />
   </React.StrictMode>,
   document.getElementById('root')

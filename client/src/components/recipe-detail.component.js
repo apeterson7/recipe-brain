@@ -2,18 +2,22 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {Accordion, Card, Button} from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
+
 import _ from 'lodash'
 
 
 const Recipe = props => (
-    <div>
-        <h1>{props.recipe.name}</h1>
-        <p>{props.recipe.link}</p>
+    <div class="row">
+      <div class="col-6">
+        <h1>{props.recipe.name} <a href={props.recipe.link} target="_blank"><FontAwesomeIcon icon={faLink} /></a></h1>
         {_.times((props.recipe.rating), () => { return (<span class="fa fa-star"></span>)})} Rated {props.recipe.rating} Stars
         <br></br>
-        <button class="btn btn-primary" onClick={props.notify}>Text Me Ingredients!</button>
         <img src={props.recipe.image} width="100%"></img>
-
+        <button class="btn btn-primary" onClick={props.notify}>Text Me Ingredients!</button>
+      </div>
+      <div class="col-6">
         <Accordion defaultActiveKey="0">
           <Card>
             <Card.Header>
@@ -62,6 +66,7 @@ const Recipe = props => (
         <p>
           {props.recipe.notes}
         </p>
+      </div>
     </div>
 )
 
@@ -96,7 +101,6 @@ export default class RecipeDetail extends Component {
   render() {
     return (
       <div>
-        <h3>Recipe</h3>
         <Recipe recipe={this.state.recipe} key={this.state.recipe._id} notify={this.notify}/>
       </div>
     )

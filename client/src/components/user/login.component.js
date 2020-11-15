@@ -65,7 +65,7 @@ export default class Login extends Component {
         <div className="form-group"> 
           <label>Password: </label>
           <input  
-              type="text" 
+              type="password" 
               name="password"
               className="form-control"
               value={this.state.password}
@@ -73,7 +73,7 @@ export default class Login extends Component {
           />
         </div>
         <div className="form-group">
-          <input type="submit" value="Create Recipe" className="btn btn-primary" />
+          <input type="submit" value="Login" className="btn btn-primary" />
         </div>
       </form>
     </div>

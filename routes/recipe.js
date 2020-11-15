@@ -44,6 +44,18 @@ router.post('/', middleware.isAuthenticated, (req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.post('/find', (req, res) => {
+  Recipe.find({ $or :[ 
+    { "name" : { "$regex" : req.body.find , "$options": "i"} }, 
+    { "ingredients.name":  { "$regex" : req.body.find, "$options": "i"}} ] 
+  })
+  .then(recipes => res.json(recipes.map(recipe => {
+    return {name: recipe.name, id: recipe._id}
+    })))
+  .catch(err => res.status(400).json('Error: ' + err));
+  
+});
+
 router.put('/', middleware.isAuthenticated, (req, res) => {
   console.log(req.body);
 

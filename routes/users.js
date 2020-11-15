@@ -5,6 +5,17 @@ var User = require('../model/user.model');
 
 var router = express.Router();
 
+router.get('/:username', function(req, res) {
+  let username = req.params.username;
+  User.find({ username: username }, function (err, docs) {
+    if(docs){
+      res.json(docs.length)
+    }else if(err){
+      res.sendStatus(400).json(err)
+    }
+  })
+})
+
 // POST: /api/users
 router.post('/', function(req, res) {
 
@@ -15,8 +26,8 @@ router.post('/', function(req, res) {
     phoneNumber: req.body.phoneNumber
   }), req.body.password, function(err, user) {
     if (err) {
-      req.flash('error', 'Could not register the user')
-      return res.redirect('/users/new');
+      console.log(err)
+      return res.redirect('/signup');
     }
 
     passport.authenticate('local')(req, res, function () {
